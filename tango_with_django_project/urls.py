@@ -24,8 +24,13 @@ from rango import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('rango/', include('rango.urls')),
+    path('about/', views.about, name='about'),
+    path('category/<slug:category_name_slug>/', views.show_category, name='show_category'),
+
     # above maps any URLs starting
     # with rango/ to be handled by
     # the rango application
-    path('admin/', admin.site.urls),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('admin/', admin.site.urls)
+]
+
+

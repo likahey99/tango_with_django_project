@@ -11,30 +11,41 @@ def populate():
 # This might seem a little bit confusing, but it allows us to iterate
 # through each data structure, and add the data to our models.
     python_pages = [
-        {"title": "Official Python Tutorial",
-        "url":"http://docs.python.org/2/tutorial/"},
-        {"title":"How to Think like a Computer Scientist",
-        "url":"http://www.greenteapress.com/thinkpython/"},
-        {"title":"Learn Python in 10 Minutes",
-        "url":"http://www.korokithakis.net/tutorials/python/"} ]
+        {'title': 'Official Python Tutorial',
+         'url': 'http://docs.python.org/3/tutorial/',
+         'views': 128},
+        {'title': 'How to Think like a Computer Scientist',
+         'url': 'http://www.greenteapress.com/thinkpython/',
+         'views': 64},
+        {'title': 'Learn Python in 10 Minutes',
+         'url': 'http://www.korokithakis.net/tutorials/python/',
+         'views': 32}
+    ]
 
     django_pages = [
-        {"title":"Official Django Tutorial",
-        "url":"https://docs.djangoproject.com/en/1.9/intro/tutorial01/"},
-        {"title":"Django Rocks",
-        "url":"http://www.djangorocks.com/"},
-        {"title":"How to Tango with Django",
-        "url":"http://www.tangowithdjango.com/"} ]
+        {'title': 'Official Django Tutorial',
+         'url': 'https://docs.djangoproject.com/en/2.1/intro/tutorial01/',
+         'views': 64},
+        {'title': 'Django Rocks',
+         'url': 'http://www.djangorocks.com/',
+         'views': 32},
+        {'title': 'How to Tango with Django',
+         'url': 'http://www.tangowithdjango.com/',
+         'views': 16}
+    ]
 
     other_pages = [
-        {"title":"Bottle",
-        "url":"http://bottlepy.org/docs/dev/"},
-        {"title":"Flask",
-        "url":"http://flask.pocoo.org"} ]
+        {'title': 'Bottle',
+         'url': 'http://bottlepy.org/docs/dev/',
+         'views': 32},
+        {'title': 'Flask',
+         'url': 'http://flask.pocoo.org',
+         'views': 16}
+    ]
 
-    cats = {"Python": {"pages": python_pages},
-            "Django": {"pages": django_pages},
-            "Other Frameworks": {"pages": other_pages} }
+    cats = {"Python": {"pages": python_pages, "likes":64, "views":128},
+            "Django": {"pages": django_pages, "likes":32, "views":64},
+            "Other Frameworks": {"pages": other_pages, "likes":16, "views":32} }
 
 # If you want to add more catergories or pages,
 # add them to the dictionaries above.
@@ -44,7 +55,7 @@ def populate():
 # for more information about how to iterate over a dictionary properly.
 
     for cat, cat_data in cats.items():
-        c = add_cat(cat)
+        c = add_cat(cat,cat_data["likes"],cat_data["views"])
         for p in cat_data["pages"]:
             add_page(c, p["title"], p["url"])
 
@@ -59,8 +70,8 @@ def add_page(cat, title, url, views=0):
     p.views=views
     p.save()
     return p
-def add_cat(name):
-    c = Category.objects.get_or_create(name=name)[0]
+def add_cat(name,likes=0,views=0):
+    c = Category.objects.get_or_create(name=name,likes=likes,views=views)[0]
     c.save()
     return c
 
