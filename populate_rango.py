@@ -55,9 +55,9 @@ def populate():
 # for more information about how to iterate over a dictionary properly.
 
     for cat, cat_data in cats.items():
-        c = add_cat(cat,cat_data["likes"],cat_data["views"])
+        c = add_cat(cat,views = cat_data["likes"],likes = cat_data["views"])
         for p in cat_data["pages"]:
-            add_page(c, p["title"], p["url"])
+            add_page(c, p["title"], p["url"],views=p['views'])
 
     # Print out the categories we have added.
     for c in Category.objects.all():
@@ -72,6 +72,8 @@ def add_page(cat, title, url, views=0):
     return p
 def add_cat(name,likes=0,views=0):
     c = Category.objects.get_or_create(name=name,likes=likes,views=views)[0]
+    c.views = views
+    c.likes = likes
     c.save()
     return c
 
