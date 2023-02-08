@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from rango.models import Category, Page
 from rango.forms import CategoryForm, PageForm
+
 
 
 
@@ -50,7 +51,7 @@ def add_category(request):
         if form.is_valid():
         # Save the new category to the database.
             form.save(commit=True)
-            return index(request)
+            return redirect('/rango/')
         else:
             print(form.errors)
     # Render the form with error messages (if any).
@@ -61,18 +62,18 @@ def add_page(request, category_name_slug):
     try:
         category = Category.objects.get(slug=category_name_slug)
     except Category.DoesNotExist:
-        category = None
-
+        return redirect('/rango/')
     form = PageForm()
     if request.method == 'POST':
         form = PageForm(request.POST)
         if form.is_valid():
-            if category:
-                page = form.save(commit=False)
-                page.category = category
-                page.views = 0
-                page.save()
-                return show_category(request, category_name_slug)
+            page = form.save(commit=False)
+            page.category = category
+            page.views = 0
+            page.save()
+            return redirect('/rango/')
+
+                #return show_category(request, category_name_slug)
         else:
             print(form.errors)
     context_dict = {'form': form, 'category': category}
