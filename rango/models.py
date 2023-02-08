@@ -24,7 +24,7 @@ class Page(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     title = models.CharField(max_length=128)
     url = models.URLField()
-    views = models.IntegerField(default=0)
+    views = models.IntegerField(default=1)
 
     TITLE_MAX_LENGTH = 128
 
