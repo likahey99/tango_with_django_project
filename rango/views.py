@@ -18,7 +18,7 @@ def index(request):
     context_dict['categories'] = category_list
     #context_dict['pages'] = page_list
 
-    return render(request, 'rango/index.html', context_dict)
+    return render(request, 'rango/index.html', context=context_dict)
 
 def show_category(request, category_name_slug):
     # Create a context dictionary which we can pass
@@ -37,7 +37,7 @@ def show_category(request, category_name_slug):
         context_dict['category'] = None
         context_dict['pages'] = None
     # Go render the response and return it to the client.
-    return render(request, 'rango/category.html', context_dict)
+    return render(request, 'rango/category.html', context=context_dict)
 
 def about(request):
     context_dict = {'boldmessage': 'This tutorial has been put together by Kai Hely.'}
